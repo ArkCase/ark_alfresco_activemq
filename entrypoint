@@ -1,0 +1,2 @@
+#!/bin/bash
+exec "${AMQ_HOME}/init.sh" "${AMQ_HOME}"
