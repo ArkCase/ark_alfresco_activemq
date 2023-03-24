@@ -6,14 +6,14 @@ ARG OS="linux"
 ARG VER="5.17.1"
 ARG PKG="alfresco-activemq"
 ARG AMQ_VER="${VER}-jre11-rockylinux8"
-ARG ALFRESCO_SRC="alfresco/alfresco-activemq:${AMQ_VER}"
+ARG ALFRESCO_SRC="alfresco/alfresco-activemq"
 ARG APP_USER="amq"
 ARG APP_UID="33031"
 ARG APP_GROUP="alfresco"
 ARG APP_GID="1000"
 
 # Used to copy artifacts
-FROM "${ALFRESCO_SRC}" AS alfresco-src
+FROM "${ALFRESCO_SRC}:${AMQ_VER}" AS alfresco-src
 
 ARG BASE_REGISTRY
 ARG BASE_REPO
