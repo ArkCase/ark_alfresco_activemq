@@ -4,6 +4,6 @@ set -euo pipefail
 
 # Init SSL
 [ -v SSL_DIR ] || SSL_DIR="/.ssl"
-acme-init
+/usr/local/bin/acme-init
 
 exec "${AMQ_HOME}/init.sh" "${AMQ_HOME}"

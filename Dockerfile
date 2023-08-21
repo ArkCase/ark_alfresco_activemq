@@ -1,9 +1,10 @@
 ARG PUBLIC_REGISTRY="public.ecr.aws"
 ARG BASE_REPO="arkcase/base"
-ARG BASE_TAG="8.7.0"
+ARG BASE_TAG="8.8-01"
 ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="5.17.1"
+ARG BLD="01"
 ARG PKG="alfresco-activemq"
 ARG AMQ_VER="${VER}-jre11-rockylinux8"
 ARG ALFRESCO_SRC="alfresco/alfresco-activemq"
@@ -65,7 +66,7 @@ RUN yum -y update && \
     rm -rf "/tmp/activemq.tar.gz" "/tmp/activemq.tar.gz.asc" "/tmp/KEYS" && \
     mkdir -p "${AMQ_HOME}/data" "/var/log/activemq" && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
-    useradd -u "${APP_UID}" -g "${APP_GROUP}" "${APP_USER}" && \
+    useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}" && \
     chown -R "${APP_USER}:${APP_GROUP}" "${AMQ_HOME}" && \
     chown "${APP_USER}:${APP_GROUP}" "${ACTIVEMQ_DATA}/activemq.log" && \
     chmod g+rwx "${ACTIVEMQ_DATA}"
