@@ -12,7 +12,7 @@ cp -vf "${ACTIVEMQ_XML}" "${ACTIVEMQ_XML}.orig"
 /usr/bin/xmlstarlet ed -L -P \
 	-N "beans=http://www.springframework.org/schema/beans" \
 	-N "broker=http://activemq.apache.org/schema/core" \
-	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStore" --value "$(<"${SSL_DIR}/keystore.pkcs12")" \
+	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStore" --value "${SSL_DIR}/keystore.pkcs12" \
 	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStoreType" --value "PKCS12" \
 	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStorePassword" --value "$(<"${SSL_DIR}/keystore.pass")" \
 	"${ACTIVEMQ_XML}"
