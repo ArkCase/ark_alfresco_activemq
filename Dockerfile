@@ -65,7 +65,7 @@ RUN yum -y update && \
     rm -rf "/tmp/activemq.tar.gz" "/tmp/activemq.tar.gz.asc" "/tmp/KEYS" && \
     mkdir -p "${AMQ_HOME}/data" "/var/log/activemq" && \
     groupadd -g "${APP_GID}" "${APP_GROUP}" && \
-    useradd -u "${APP_UID}" -g "${APP_GROUP}" "${APP_USER}" && \
+    useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_USER}" "${APP_USER}" && \
     chown -R "${APP_USER}:${APP_GROUP}" "${AMQ_HOME}" && \
     chown "${APP_USER}:${APP_GROUP}" "${ACTIVEMQ_DATA}/activemq.log" && \
     chmod g+rwx "${ACTIVEMQ_DATA}"
