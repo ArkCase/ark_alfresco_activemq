@@ -1,33 +1,33 @@
 ARG PUBLIC_REGISTRY="public.ecr.aws"
-ARG BASE_REPO="arkcase/base"
-ARG BASE_TAG="8-02"
 ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="5.17.1"
-ARG BLD="02"
 ARG PKG="alfresco-activemq"
-ARG AMQ_VER="${VER}-jre11-rockylinux8"
-ARG ALFRESCO_SRC="alfresco/alfresco-activemq"
 ARG APP_USER="amq"
 ARG APP_UID="33031"
 ARG APP_GROUP="alfresco"
 ARG APP_GID="1000"
 
-# Used to copy artifacts
-FROM "${ALFRESCO_SRC}:${AMQ_VER}" AS alfresco-src
+ARG ALFRESCO_REPO="alfresco/alfresco-activemq"
+ARG ALFRESCO_VER="${VER}-jre11-rockylinux8"
+ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${ALFRESCO_VER}"
 
-ARG PUBLIC_REGISTRY
-ARG BASE_REPO
-ARG BASE_TAG
+ARG BASE_REPO="arkcase/base"
+ARG BASE_VER="8"
+ARG BASE_IMG="${PUBLIC_REGISTRY}/${BASE_REPO}:${BASE_VER}"
+
+# Used to copy artifacts
+FROM "${ALFRESCO_IMG}" AS alfresco-src
+
+ARG BASE_IMG
 
 # Final Image
-FROM "${PUBLIC_REGISTRY}/${BASE_REPO}:${BASE_TAG}"
+FROM "${BASE_IMG}"
 
 ARG ARCH
 ARG OS
 ARG VER
 ARG PKG
-ARG ALFRESCO_SRC
 ARG APP_USER
 ARG APP_UID
 ARG APP_GROUP
