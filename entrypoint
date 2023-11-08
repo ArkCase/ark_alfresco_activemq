@@ -9,12 +9,24 @@ set -euo pipefail
 # Set the keystore password for ActiveMQ
 ACTIVEMQ_XML="${ACTIVEMQ_CONF}/activemq.xml"
 cp -vf "${ACTIVEMQ_XML}" "${ACTIVEMQ_XML}.orig"
+BASE_XML_PATH="/beans:beans/broker:broker/broker:sslContext/broker:sslContext"
 /usr/bin/xmlstarlet ed -L -P \
 	-N "beans=http://www.springframework.org/schema/beans" \
 	-N "broker=http://activemq.apache.org/schema/core" \
-	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStore" --value "${SSL_DIR}/keystore.pkcs12" \
-	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStoreType" --value "PKCS12" \
-	--update "/beans:beans/broker:broker/broker:sslContext/broker:sslContext/@keyStorePassword" --value "$(<"${SSL_DIR}/keystore.pass")" \
+	--update "${BASE_XML_PATH}/@keyStore" --value "${SSL_DIR}/keystore.pkcs12" \
+	--update "${BASE_XML_PATH}/@keyStoreType" --value "PKCS12" \
+	--update "${BASE_XML_PATH}/@keyStorePassword" --value "$(<"${SSL_DIR}/keystore.pass")" \
 	"${ACTIVEMQ_XML}"
+
+# Set the keystore password for Jetty
+JETTY_XML="${ACTIVEMQ_CONF}/activemq.xml"
+cp -vf "${JETTY_XML}" "${JETTY_XML}.orig"
+BASE_XML_PATH="/beans:beans/beans:bean[@id = 'invokeConnectors']/beans:property[@name = 'arguments']/beans:list/beans:bean[@id = 'SecureConnector']/beans:constructor-arg/beans:bean[@id = 'handlers']"
+/usr/bin/xmlstarlet ed -L -P \
+	-N "beans=http://www.springframework.org/schema/beans" \
+	--update "${BASE_XML_PATH}/beans:property[@name = 'keyStorePath']/@value" --value "${SSL_DIR}/keystore.pkcs12" \
+	--update "${BASE_XML_PATH}/beans:property[@name = 'keyStorePassword']/@value" --value "$(<"${SSL_DIR}/keystore.pass")" \
+	--update "${BASE_XML_PATH}/beans:property[@name = 'keyStoreType']/@value" --value "pkcs12" \
+	"${JETTY_XML}"
 
 exec "${AMQ_HOME}/init.sh" "${AMQ_HOME}"
