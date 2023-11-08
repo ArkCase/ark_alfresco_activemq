@@ -75,7 +75,7 @@ WORKDIR "${AMQ_HOME}"
 COPY --from=alfresco-src "${AMQ_HOME}/init.sh" "${AMQ_HOME}/init.sh"
 COPY entrypoint /entrypoint
 RUN chmod 0755 "${AMQ_HOME}/init.sh" "/entrypoint"
-COPY --chown="${APP_USER}:${APP_GROUP}" activemq.xml "${ACTIVEMQ_CONF}/"
+COPY --chown="${APP_USER}:${APP_GROUP}" activemq.xml jetty.xml "${ACTIVEMQ_CONF}/"
 
 USER "${APP_USER}"
 
