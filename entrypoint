@@ -19,7 +19,7 @@ BASE_XML_PATH="/beans:beans/broker:broker/broker:sslContext/broker:sslContext"
 	"${ACTIVEMQ_XML}"
 
 # Set the keystore password for Jetty
-JETTY_XML="${ACTIVEMQ_CONF}/activemq.xml"
+JETTY_XML="${ACTIVEMQ_CONF}/jetty.xml"
 cp -vf "${JETTY_XML}" "${JETTY_XML}.orig"
 BASE_XML_PATH="/beans:beans/beans:bean[@id = 'invokeConnectors']/beans:property[@name = 'arguments']/beans:list/beans:bean[@id = 'SecureConnector']/beans:constructor-arg/beans:bean[@id = 'handlers']"
 /usr/bin/xmlstarlet ed -L -P \
