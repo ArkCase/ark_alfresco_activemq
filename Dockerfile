@@ -9,7 +9,7 @@ ARG APP_GROUP="alfresco"
 ARG APP_GID="1000"
 
 ARG ALFRESCO_REPO="alfresco/alfresco-activemq"
-ARG ALFRESCO_VER="${VER}-jre11-rockylinux8"
+ARG ALFRESCO_VER="${VER}-jre17-rockylinux8"
 ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${ALFRESCO_VER}"
 
 ARG BASE_REPO="arkcase/base"
