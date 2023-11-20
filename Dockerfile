@@ -2,6 +2,7 @@ ARG PUBLIC_REGISTRY="public.ecr.aws"
 ARG ARCH="amd64"
 ARG OS="linux"
 ARG VER="5.17.6"
+ARG JAVA="17"
 ARG PKG="alfresco-activemq"
 ARG APP_USER="amq"
 ARG APP_UID="33031"
@@ -9,7 +10,7 @@ ARG APP_GROUP="alfresco"
 ARG APP_GID="1000"
 
 ARG ALFRESCO_REPO="alfresco/alfresco-activemq"
-ARG ALFRESCO_VER="${VER}-jre17-rockylinux8"
+ARG ALFRESCO_VER="${VER}-jre${JAVA}-rockylinux8"
 ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${ALFRESCO_VER}"
 
 ARG BASE_REPO="arkcase/base"
@@ -27,6 +28,7 @@ FROM "${BASE_IMG}"
 ARG ARCH
 ARG OS
 ARG VER
+ARG JAVA
 ARG PKG
 ARG APP_USER
 ARG APP_UID
@@ -35,8 +37,8 @@ ARG APP_GID
 ARG AMQ_HOME="/opt/activemq"
 
 # Root's Environment
-ENV JAVA_HOME="/usr/lib/jvm/jre-11-openjdk" \
-    JAVA_MAJOR="11" \
+ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA}-openjdk" \
+    JAVA_MAJOR="${JAVA}" \
     CATALINA_HOME="/usr/local/tomcat" \
     TOMCAT_NATIVE_LIBDIR="${CATALINA_HOME}/native-jni-lib" \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}$TOMCAT_NATIVE_LIBDIR" \
@@ -54,7 +56,7 @@ ARG DOWNLOAD_URL="https://archive.apache.org/dist/activemq/${VER}/apache-activem
 
 RUN yum -y update && \
     yum -y install \
-        java-${JAVA_MAJOR}-openjdk-devel && \
+        java-${JAVA}-openjdk-devel && \
     yum -y clean all && \
     curl "${DOWNLOAD_URL}" -so "/tmp/activemq.tar.gz" && \
     curl "${DOWNLOAD_ASC_URL}" -so "/tmp/activemq.tar.gz.asc" && \
@@ -80,8 +82,8 @@ COPY --chown="${APP_USER}:${APP_GROUP}" activemq.xml jetty.xml "${ACTIVEMQ_CONF}
 USER "${APP_USER}"
 
 # ${APP_USER}'s Environment
-ENV JAVA_HOME="/usr/lib/jvm/jre-11-openjdk" \
-    JAVA_MAJOR="11" \
+ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA}-openjdk" \
+    JAVA_MAJOR="${JAVA}" \
     CATALINA_HOME="/usr/local/tomcat" \
     TOMCAT_NATIVE_LIBDIR="${CATALINA_HOME}/native-jni-lib" \
     LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${TOMCAT_NATIVE_LIBDIR}" \
