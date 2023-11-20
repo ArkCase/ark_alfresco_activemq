@@ -1,7 +1,7 @@
 ARG PUBLIC_REGISTRY="public.ecr.aws"
 ARG ARCH="amd64"
 ARG OS="linux"
-ARG VER="5.17.1"
+ARG VER="5.17.6"
 ARG PKG="alfresco-activemq"
 ARG APP_USER="amq"
 ARG APP_UID="33031"
