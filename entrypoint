@@ -1,16 +1,16 @@
 #!/bin/bash
 
 set -euo pipefail
+. /.functions
 
 # Init SSL
-[ -v SSL_DIR ] || SSL_DIR="/.ssl"
-/usr/local/bin/acme-init
+init_ssl
 
 # Set the keystore password for ActiveMQ
 ACTIVEMQ_XML="${ACTIVEMQ_CONF}/activemq.xml"
 cp -vf "${ACTIVEMQ_XML}" "${ACTIVEMQ_XML}.orig"
 BASE_XML_PATH="/beans:beans/broker:broker/broker:sslContext/broker:sslContext"
-/usr/bin/xmlstarlet ed -L -P \
+xmlstarlet ed -L -P \
 	-N "beans=http://www.springframework.org/schema/beans" \
 	-N "broker=http://activemq.apache.org/schema/core" \
 	--update "${BASE_XML_PATH}/@keyStore" --value "${SSL_DIR}/keystore.pkcs12" \
@@ -22,11 +22,11 @@ BASE_XML_PATH="/beans:beans/broker:broker/broker:sslContext/broker:sslContext"
 JETTY_XML="${ACTIVEMQ_CONF}/jetty.xml"
 cp -vf "${JETTY_XML}" "${JETTY_XML}.orig"
 BASE_XML_PATH="/beans:beans/beans:bean[@id = 'invokeConnectors']/beans:property[@name = 'arguments']/beans:list/beans:bean[@id = 'SecureConnector']/beans:constructor-arg/beans:bean[@id = 'handlers']"
-/usr/bin/xmlstarlet ed -L -P \
+xmlstarlet ed -L -P \
 	-N "beans=http://www.springframework.org/schema/beans" \
 	--update "${BASE_XML_PATH}/beans:property[@name = 'keyStorePath']/@value" --value "${SSL_DIR}/keystore.pkcs12" \
 	--update "${BASE_XML_PATH}/beans:property[@name = 'keyStorePassword']/@value" --value "$(<"${SSL_DIR}/keystore.pass")" \
 	--update "${BASE_XML_PATH}/beans:property[@name = 'keyStoreType']/@value" --value "pkcs12" \
 	"${JETTY_XML}"
 
-exec "${AMQ_HOME}/init.sh" "${AMQ_HOME}"
+execute "${AMQ_HOME}/init.sh" "${AMQ_HOME}"
