@@ -54,8 +54,7 @@ ARG DOWNLOAD_URL="https://archive.apache.org/dist/activemq/${VER}/apache-activem
     DOWNLOAD_ASC_URL="https://archive.apache.org/dist/activemq/${VER}/apache-activemq-${VER}-bin.tar.gz.asc" \
     DOWNLOAD_KEYS_URL="https://downloads.apache.org/activemq/KEYS"
 
-RUN yum -y update && \
-    yum -y install \
+RUN yum -y install \
         java-${JAVA}-openjdk-devel && \
     yum -y clean all && \
     curl "${DOWNLOAD_URL}" -so "/tmp/activemq.tar.gz" && \
