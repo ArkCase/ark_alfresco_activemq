@@ -14,7 +14,7 @@ ARG ALFRESCO_VER="${VER}-jre${JAVA}-rockylinux8"
 ARG ALFRESCO_IMG="${ALFRESCO_REPO}:${ALFRESCO_VER}"
 
 ARG BASE_REGISTRY="${PUBLIC_REGISTRY}"
-ARG BASE_REPO="arkcase/base"
+ARG BASE_REPO="arkcase/base-java"
 ARG BASE_VER="8"
 ARG BASE_VER_PFX=""
 ARG BASE_IMG="${BASE_REGISTRY}/${BASE_REPO}:${BASE_VER_PFX}${BASE_VER}"
@@ -39,12 +39,7 @@ ARG APP_GID
 ARG AMQ_HOME="/opt/activemq"
 
 # Root's Environment
-ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA}-openjdk" \
-    JAVA_MAJOR="${JAVA}" \
-    CATALINA_HOME="/usr/local/tomcat" \
-    TOMCAT_NATIVE_LIBDIR="${CATALINA_HOME}/native-jni-lib" \
-    LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}$TOMCAT_NATIVE_LIBDIR" \
-    PATH="${CATALINA_HOME}/bin:${PATH}" \
+ENV JAVA_MAJOR="${JAVA}" \
     AMQ_HOME="${AMQ_HOME}" \
     ACTIVEMQ_BASE="${AMQ_HOME}" \
     ACTIVEMQ_CONF="${AMQ_HOME}/conf" \
@@ -56,9 +51,7 @@ ARG DOWNLOAD_URL="https://archive.apache.org/dist/activemq/${VER}/apache-activem
     DOWNLOAD_ASC_URL="https://archive.apache.org/dist/activemq/${VER}/apache-activemq-${VER}-bin.tar.gz.asc" \
     DOWNLOAD_KEYS_URL="https://downloads.apache.org/activemq/KEYS"
 
-RUN yum -y install \
-        java-${JAVA}-openjdk-devel && \
-    yum -y clean all && \
+RUN set-java "${JAVA}" && \
     curl "${DOWNLOAD_URL}" -so "/tmp/activemq.tar.gz" && \
     curl "${DOWNLOAD_ASC_URL}" -so "/tmp/activemq.tar.gz.asc" && \
     curl "${DOWNLOAD_KEYS_URL}" -so "/tmp/KEYS" && \
@@ -83,12 +76,7 @@ COPY --chown="${APP_USER}:${APP_GROUP}" activemq.xml jetty.xml "${ACTIVEMQ_CONF}
 USER "${APP_USER}"
 
 # ${APP_USER}'s Environment
-ENV JAVA_HOME="/usr/lib/jvm/jre-${JAVA}-openjdk" \
-    JAVA_MAJOR="${JAVA}" \
-    CATALINA_HOME="/usr/local/tomcat" \
-    TOMCAT_NATIVE_LIBDIR="${CATALINA_HOME}/native-jni-lib" \
-    LD_LIBRARY_PATH="${LD_LIBRARY_PATH:+${LD_LIBRARY_PATH}:}${TOMCAT_NATIVE_LIBDIR}" \
-    PATH="${CATALINA_HOME}/bin:${PATH}" \
+ENV JAVA_MAJOR="${JAVA}" \
     AMQ_HOME="${AMQ_HOME}" \
     ACTIVEMQ_BASE="${AMQ_HOME}" \
     ACTIVEMQ_CONF="${AMQ_HOME}/conf" \
