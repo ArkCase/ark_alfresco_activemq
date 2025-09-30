@@ -68,9 +68,8 @@ RUN set-java "${JAVA}" && \
     chmod g+rwx "${ACTIVEMQ_DATA}"
 
 WORKDIR "${AMQ_HOME}"
-COPY --from=alfresco-src "${AMQ_HOME}/init.sh" "${AMQ_HOME}/init.sh"
-COPY entrypoint /entrypoint
-RUN chmod 0755 "${AMQ_HOME}/init.sh" "/entrypoint"
+COPY --from=alfresco-src --chmod=0755 "${AMQ_HOME}/init.sh" "${AMQ_HOME}/init.sh"
+COPY --chmod=0755 entrypoint /entrypoint
 COPY --chown="${APP_USER}:${APP_GROUP}" activemq.xml jetty.xml "${ACTIVEMQ_CONF}/"
 
 USER "${APP_USER}"
