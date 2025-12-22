@@ -117,7 +117,7 @@
         </shutdownHooks>
 
         <sslContext>
-            <sslContext keyStore="key-store-file" keyStorePassword="supersecret" keyStoreType="someTypeOfFile" trustStore="file:/etc/pki/java/cacerts" trustStorePassword="changeit" trustStoreType="JKS" />
+            <sslContext keyStore="key-store-file" keyStorePassword="supersecret" keyStoreType="someTypeOfFile" trustStore="file:/etc/ssl/certs/java/cacerts" trustStorePassword="changeit" trustStoreType="JKS" />
         </sslContext>
     </broker>
 
