@@ -156,22 +156,22 @@
                             </bean>
                         </list>
                     </constructor-arg>
-                    <property name="host" value="#{systemProperties['jetty.host']}"/>
-                    <property name="port" value="#{systemProperties['jetty.port']}"/>
+                    <property name="host" value="${jetty.host}"/>
+                    <property name="port" value="${jetty.port}"/>
                 </bean>
                 -->
                 <bean id="SecureConnector" class="org.eclipse.jetty.server.ServerConnector">
                     <constructor-arg ref="Server"/>
                     <constructor-arg>
                         <bean id="handlers" class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
-                            <property name="keyStorePath" value="${activemq.conf}/broker.ks" />
-                            <property name="keyStorePassword" value="password" />
-                            <property name="keyStoreType" value="jks" />
+                            <property name="keyStorePath" value="${javax.net.ssl.keyStore}" />
+                            <property name="keyStorePassword" value="${javax.net.ssl.keyStorePassword}" />
+                            <property name="keyStoreType" value="${javax.net.ssl.keyStoreType}" />
                         </bean>
                     </constructor-arg>
                     <!-- see the jettyPort bean -->
-                    <property name="host" value="#{systemProperties['jetty.host']}"/>
-                    <property name="port" value="#{systemProperties['jetty.port']}"/>
+                    <property name="host" value="${jetty.host}"/>
+                    <property name="port" value="${jetty.port}"/>
                 </bean>
             </list>
         </property>
