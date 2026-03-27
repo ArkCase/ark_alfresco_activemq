@@ -156,8 +156,8 @@
                             </bean>
                         </list>
                     </constructor-arg>
-                    <property name="host" value="${jetty.host}"/>
-                    <property name="port" value="${jetty.port}"/>
+                    <property name="host" value="#{systemProperties['jetty.host']}"/>
+                    <property name="port" value="#{systemProperties['jetty.port']}"/>
                 </bean>
                 -->
                 <bean id="SecureConnector" class="org.eclipse.jetty.server.ServerConnector">
@@ -170,8 +170,8 @@
                         </bean>
                     </constructor-arg>
                     <!-- see the jettyPort bean -->
-                    <property name="host" value="${jetty.host}"/>
-                    <property name="port" value="${jetty.port}"/>
+                    <property name="host" value="#{systemProperties['jetty.host']}"/>
+                    <property name="port" value="#{systemProperties['jetty.port']}"/>
                 </bean>
             </list>
         </property>
