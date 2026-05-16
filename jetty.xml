@@ -164,9 +164,9 @@
                     <constructor-arg ref="Server"/>
                     <constructor-arg>
                         <bean id="handlers" class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
-                            <property name="keyStorePath" value="${activemq.conf}/broker.ks" />
-                            <property name="keyStorePassword" value="password" />
-                            <property name="keyStoreType" value="jks" />
+                            <property name="keyStorePath" value="${javax.net.ssl.keyStore}" />
+                            <property name="keyStorePassword" value="${javax.net.ssl.keyStorePassword}" />
+                            <property name="keyStoreType" value="${javax.net.ssl.keyStoreType}" />
                         </bean>
                     </constructor-arg>
                     <!-- see the jettyPort bean -->
