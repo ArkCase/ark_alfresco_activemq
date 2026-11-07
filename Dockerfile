@@ -66,7 +66,9 @@ RUN set-java "${JAVA}" && \
     useradd -u "${APP_UID}" -g "${APP_GROUP}" -G "${ACM_GROUP}" "${APP_USER}" && \
     chown -R "${APP_USER}:${APP_GROUP}" "${AMQ_HOME}" && \
     chown "${APP_USER}:${APP_GROUP}" "${ACTIVEMQ_DATA}/activemq.log" && \
-    chmod g+rwx "${ACTIVEMQ_DATA}"
+    chmod g+rwx "${ACTIVEMQ_DATA}" && \
+    chown -R "${APP_USER}:${APP_GROUP}" "${TEMP_DIR}" && \
+    chmod -R u=rwX,g=rX,o= "${TEMP_DIR}"
 
 WORKDIR "${AMQ_HOME}"
 COPY --from=alfresco-src --chmod=0755 "${AMQ_HOME}/init.sh" "${AMQ_HOME}/init.sh"
